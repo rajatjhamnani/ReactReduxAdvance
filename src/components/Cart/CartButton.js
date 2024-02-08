@@ -1,21 +1,17 @@
-import react, { useState } from "react";
 import classes from "./CartButton.module.css";
-import { hideCart } from "../store/CartReducer";
-import { useDispatch } from "react-redux";
+import { hideCart } from "../store/ShowCart";
+import { useDispatch, useSelector } from "react-redux";
 
 const CartButton = (props) => {
-  const [showCart, setShowCart] = useState(false);
   const dispatch = useDispatch();
   const showCartHandler = () => {
-    setShowCart((prev) => {
-      dispatch(hideCart(!prev));
-      return !prev;
-    });
+    dispatch(hideCart());
   };
+  const quantity = useSelector((state) => state.cartData.totalQuantity);
   return (
     <button onClick={showCartHandler} className={classes.button}>
       <span>My Cart</span>
-      <span className={classes.badge}>1</span>
+      <span className={classes.badge}>{quantity}</span>
     </button>
   );
 };
